@@ -1,17 +1,17 @@
-# JEPA block HSIC on PushT
+# JEPA 分块 HSIC：PushT 训练与推理
 
-Research code for **prediction + SIGReg + block-versus-rest HSIC** in LeWorldModel. The motivation is Hugues Van Assel's [JEPA feature-selection analysis and stable-token stress test](https://huguesva.github.io/blog/2026/world-models/).
+这个项目探索：在 LeWorldModel 中增加块间 HSIC，能否减少重复信息，为其他因素保留表达空间。动机来自 Hugues Van Assel 的 [JEPA 分析与稳定色块实验](https://huguesva.github.io/blog/2026/world-models/)。
 
-**This is an exploratory, partly negative result.** With one world-model training seed, λ200 slightly improves the stable-color condition but substantially degrades grey and unpredictable-color planning. An extra 5000 updates did not recover planning. The four-head/fusion variants in the note are proposals and are not implemented here.
+**当前实现是共享投影后直接分块的 HSIC。四个独立头、融合层和 SIGReg 前后分配是尚未验证的新方案，只在方法文档中介绍。** 已有实验并未取得稳定的规划改善，HSIC 也可能压掉有用信息。
 
-- [中文：完整思路、方法与实验反馈](docs/idea-and-method.zh-CN.md)
-- [Sources and attribution](THIRD_PARTY.md)
-- [Model card](docs/model-card.md)
-- [Result summary](results/summary.json)
+- [思路、方法与新方案（中文）](docs/idea-and-method.zh-CN.md)
+- [模型卡与训练来源](docs/model-card.md)
+- [测试与导出核验](verification/README.md)
+- [上游来源与许可证](THIRD_PARTY.md)
 
-## Installation
+## 安装
 
-Use Linux, Python 3.10, and a CUDA-capable PyTorch installation for full training and planning. CPU works for unit tests, model loading and the small interface check; full planning is substantially slower.
+建议使用 Linux、Python 3.10 和支持 CUDA 的 PyTorch。CPU 可用于测试、加载模型和小规模接口检查。
 
 ```bash
 git clone https://github.com/yousamar/jepa-block-hsic-pusht.git
@@ -22,18 +22,18 @@ pip install -r requirements.txt
 python -m unittest discover -s tests -v
 ```
 
-The environment framework is pinned to a Git revision in requirements.txt. `requirements-tested.txt` lists the core versions used for checkpoint export and verification. The dependency installation may require system build tools and EGL/OpenGL support.
+框架版本固定在 `requirements.txt`；导出核验时的核心版本见 `requirements-tested.txt`。已在原实验依赖环境中测试独立代码目录，尚未重新安装一套全新环境。运行环境可能需要系统编译工具和 EGL/OpenGL 支持。
 
-## Data
+## 下载数据
 
 ```bash
 export STABLEWM_HOME=/path/to/lewm-data
 bash scripts/download_data.sh
 ```
 
-This downloads the official [PushT expert dataset](https://huggingface.co/datasets/quentinll/lewm-pusht). Install `zstd` for decompression. The dataset is not included in this repository or the model Release.
+脚本下载[官方 PushT 数据](https://huggingface.co/datasets/quentinll/lewm-pusht)，解压需要安装 `zstd`。仓库不包含数据集。
 
-## Train a baseline or HSIC model
+## 训练
 
 ```bash
 CUDA_VISIBLE_DEVICES=0 python scripts/run.py train \
@@ -41,15 +41,16 @@ CUDA_VISIBLE_DEVICES=0 python scripts/run.py train \
   --data "$STABLEWM_HOME" --output outputs/stable_lambda200
 ```
 
-Set `--lambda-hsic 0` for the original prediction+SIGReg objective. Conditions are `stable`, `grey`, and `unpredictable`. Default training is 2 epochs, batch128, BF16, 192-dimensional embeddings split into four48-dimensional blocks, SIGReg weight0.09, AdamW lr5e-5, weight decay0.001, global gradient clipping1. Sixteen loader workers and prefetch3 match the completed experiments; use `--workers` for your machine's memory capacity.
+- `--lambda-hsic 0`：原预测＋SIGReg 基线；`200`：增加 HSIC。
+- `--condition`：`stable` 稳定色块、`grey` 灰背景、`unpredictable` 逐帧随机色块。
+- 默认：2轮、batch128、BF16、192维分为四个48维块、SIGReg 权重0.09、AdamW 学习率5e-5。
+- 数据加载默认16 workers，可用 `--workers` 按主机内存调整；`--workers 0` 可关闭多进程加载。
 
-HSIC is computed separately at each time index and averaged over block-versus-rest pairs. The sample-median RBF bandwidth is differentiable. Weight0 skips HSIC completely. No auxiliary prefix objectives or label supervision are used.
+训练保存 `*_epoch_2_object.ckpt` 供推理使用，`*_weights.ckpt` 用于本地恢复训练。`--max-steps 20` 只适合检查流程，不能评价方法效果，其学习率日程也不等同完整训练。
 
-The final checkpoint is saved as `*_epoch_2_object.ckpt`; the optimizer checkpoint `*_weights.ckpt` is for local training recovery. A short wiring check can use `--max-steps 20`; it is not an efficacy experiment and does not follow the full-run learning-rate schedule exactly.
+## 下载模型与检查推理接口
 
-## Download the released models
-
-**Model attachments are pending transfer.** The three FP32 bundles have been exported and verified on the experiment server; they are not yet downloadable from GitHub. The planned private Release `models-lambda200-step32866-v1` will contain three inference bundles, about72 MB each, and checksums. Once available, you need access to this private repository and an authenticated [GitHub CLI](https://cli.github.com/).
+**模型附件正在同步，尚未上线。** 三个文件均已导出并通过等价性核验，计划放在私有 Release `models-lambda200-step32866-v1`。上线后，拥有仓库访问权限并登录 [GitHub CLI](https://cli.github.com/) 即可下载：
 
 ```bash
 python scripts/download_models.py
@@ -57,9 +58,11 @@ python infer.py --checkpoint models/stable_lambda200_step32866.pt \
   --self-test --output outputs/interface_check.npz
 ```
 
-The interface check uses synthetic normalized inputs and tests shapes only. For your own `.npz`, supply `pixels` shaped `[B,T,3,252,252]` after the training ImageNet preprocessing, and `action` shaped `[B,T,10]` after the dataset action normalization/grouping. `infer.py --input ...` writes embeddings and predicted embeddings. Use the evaluation command below for raw environment images and proper dataset normalization.
+每个模型约72 MB、18,034,478个参数，FP32，不含优化器。三个文件分别对应三个背景条件；步数均为32,866，详细来源和限制见模型卡。
 
-## Run closed-loop PushT planning
+`--self-test` 使用合成输入，只检查接口。自己的 `.npz` 输入应包含 `pixels`（形状 `[B,T,3,252,252]`，完成训练时的 ImageNet 预处理）和 `action`（形状 `[B,T,10]`，完成数据集标准化与动作分组）。使用 `--input` 读取，输出包含编码与预测。原始环境图像的处理交给下面的规划评估入口。
+
+## 闭环规划评估
 
 ```bash
 CUDA_VISIBLE_DEVICES=0 python scripts/run.py eval \
@@ -67,20 +70,20 @@ CUDA_VISIBLE_DEVICES=0 python scripts/run.py eval \
   --seed 42 --episodes 50 --data "$STABLEWM_HOME" --output outputs/eval_stable_42
 ```
 
-Repeat with seed4242 and the matching condition/model. The wrapper fixes the one-token nuisance geometry, matched observation/goal nuisance, model-frame timing and nuisance stream1. CEM retains 300 samples,30 iterations,30 elites, horizon5 and action block5. Evaluation keeps per-episode successes, starting states, goals and planning configuration.
+换用 seed4242 再评估50集；更换模型时同时选择匹配的背景条件。脚本保持原 CEM 配置、单色块几何及观测/目标颜色配对，保存每集成败、起点、目标和规划配置。也支持原来的可信 `*_object.ckpt` 文件。
 
-Original trusted `*_object.ckpt` files remain supported by the evaluation wrapper; portable Release `.pt` bundles load only state dictionaries and architecture configuration. No optimizer is required for inference. The model has **18,034,478 parameters**, including6,294,144 representation parameters and11,740,334 action/dynamics parameters. HSIC adds no parameters.
+## 已有结果
 
-## What the models achieved
+以下为同预算27,866步的 λ0/200 比较，每模型100集：
 
-| Condition | Before continuation | Released model | Nonlinear physical R², before → after |
-|---|---:|---:|---:|
-| Stable color | 9/100 | 8/100 | 0.495 → 0.488 |
-| Grey | 20/100 | 19/100 | 0.842 → 0.850 |
-| Unpredictable color | 10/100 | 11/100 | 0.835 → 0.847 |
+| 背景 | λ0 | λ200 |
+|---|---:|---:|
+| 稳定色块 | 4% | 9% |
+| 灰背景 | 82% | 19% |
+| 逐帧随机色块 | 67% | 10% |
 
-The before/after campaign freshly evaluated all600 episodes. These are one world-model training trajectory, not multiple training seeds. Models were extended from27,866 to32,866 updates with retained AdamW moments **and a restarted learning-rate schedule** (50-step warmup, cosine to zero, peak5e-5). Original RNG state was unavailable, so this is not exact uninterrupted training. See the note for the separate λ0/200/600 comparisons and probe interpretation.
+完整视觉实验只有一个训练种子，不能据此宣称稳健提升。Release 中的32,866步模型是另一终点，结果与来源另见模型卡；不要把两个终点混为同预算比较。
 
-## Provenance and license
+## 来源
 
-The model, SIGReg and original intervention code are derived from the upstream repositories listed in SOURCE_PROVENANCE.json and THIRD_PARTY.md. Their MIT copyright notice is retained in LICENSE. The upstream blog's ten-seed results must not be attributed to this project. No datasets, server credentials, machine-specific deployment scripts or complete experiment archives are included.
+模型和 SIGReg 来自 [LeWorldModel](https://github.com/lucas-maes/le-wm)，PushT 干预与评估代码基于 [jepa-stable-token-failure](https://github.com/huguesva/jepa-stable-token-failure)。保留 MIT 许可证，版本与来源记录见 `SOURCE_PROVENANCE.json`。博客作者的十种子实验不属于本项目的训练重复。
