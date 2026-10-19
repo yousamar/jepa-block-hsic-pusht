@@ -1,0 +1,25 @@
+{
+  "sources": [
+    {
+      "repository": "https://github.com/huguesva/jepa-stable-token-failure",
+      "revision": "6b866c984da79638db963d1f9a36564fa2c2a1f9",
+      "role": "PushT intervention, training/evaluation plumbing"
+    },
+    {
+      "repository": "https://github.com/lucas-maes/le-wm",
+      "role": "LeWorldModel architecture and SIGReg; MIT license"
+    },
+    {
+      "repository": "https://github.com/galilai-group/stable-worldmodel",
+      "revision": "44c45bd1f774995aac0cc2b41444ebea24c1d5ad",
+      "role": "training/environment framework"
+    }
+  ],
+  "motivation": "https://huguesva.github.io/blog/2026/world-models/",
+  "scope": "Baseline and direct-block differentiable-bandwidth HSIC only; four-head/fusion methods are proposals, not implemented in this release.",
+  "copied_model_source_sha256": {
+    "jepa.py": "758cd277fcfcd8b05e3d5269146a4a8aa348f2f2a324fd45398035879dd07108",
+    "module.py": "b24e8739ca3f0a8731115b60648d2706df236cb2d2d705d7ad6e3fe47726aae7",
+    "ldep.py": "ac6ea59a41074ee49595f3236a8efd4c5846903acbd7d2c05738bd4e2b3c5c21"
+  }
+}

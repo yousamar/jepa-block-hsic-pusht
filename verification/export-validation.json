@@ -1,0 +1,246 @@
+{
+  "format": "inference release manifest v1",
+  "created": 1792414176.8378837,
+  "models": [
+    {
+      "file": "stable_lambda200_step32866.pt",
+      "bytes": 72276189,
+      "sha256": "a8b6251740c938f7cfef1484e3f128790c85a16e5bafbf2f6a9cd90e15009f75",
+      "parameters": 18034478,
+      "metadata": {
+        "condition": "stable",
+        "seed": 4711,
+        "lambda_hsic": 200,
+        "source_updates": 27866,
+        "additional_updates": 5000,
+        "global_step": 32866,
+        "source_checkpoint_sha256": "4b57348a7ea373c9d3c1d7232e49aac27525e321ef54b2145e681eb2d171cfe3",
+        "dtype": "float32",
+        "nuisance": {
+          "condition": "markov",
+          "mode": "pad",
+          "border": 14,
+          "ring": 0,
+          "geometry": "patch",
+          "n_tiles": 16,
+          "n_patches": 1,
+          "patch_size": 14,
+          "amplitude": 1.0,
+          "persistence": 0,
+          "rho": 1.0,
+          "frame_unit": "model",
+          "base_seed": 20260922,
+          "stream": 0
+        },
+        "continuation": {
+          "retained_adamw_moments": true,
+          "learning_rate_restart": true,
+          "warmup_updates": 50,
+          "peak_learning_rate": 5e-05,
+          "scheduler": "cosine to zero over5000 updates",
+          "stage_seed": 32577,
+          "exact_rng_continuation": false
+        }
+      },
+      "verification": {
+        "passed": true,
+        "state_tensors_exact": true,
+        "max_abs_differences": {
+          "emb": 0.0,
+          "act_emb": 0.0,
+          "prediction": 0.0,
+          "planning_cost": 0.0,
+          "rollout": 0.0,
+          "small_cem_actions": 0.0
+        },
+        "device": "cpu",
+        "cem_smoke": {
+          "samples": 4,
+          "iterations": 2,
+          "elites": 2,
+          "horizon": 5,
+          "action_block": 5,
+          "not_full_evaluation": true
+        }
+      }
+    },
+    {
+      "file": "grey_lambda200_step32866.pt",
+      "bytes": 72275575,
+      "sha256": "f8310da5109c0d904ce70d0c58795a0da101e964b4dde7ec702e3049707eb2ca",
+      "parameters": 18034478,
+      "metadata": {
+        "condition": "grey",
+        "seed": 4711,
+        "lambda_hsic": 200,
+        "source_updates": 27866,
+        "additional_updates": 5000,
+        "global_step": 32866,
+        "source_checkpoint_sha256": "127b2e1982b5350c1041fd1bcb5ba644b7afcf8b9ed098bdc0b6c20f09949be5",
+        "dtype": "float32",
+        "nuisance": {
+          "condition": "neutral",
+          "mode": "pad",
+          "border": 14,
+          "ring": 0,
+          "geometry": "patch",
+          "n_tiles": 16,
+          "n_patches": 1,
+          "patch_size": 14,
+          "amplitude": 1.0,
+          "persistence": 0,
+          "rho": 1.0,
+          "frame_unit": "model",
+          "base_seed": 20260922,
+          "stream": 0
+        },
+        "continuation": {
+          "retained_adamw_moments": true,
+          "learning_rate_restart": true,
+          "warmup_updates": 50,
+          "peak_learning_rate": 5e-05,
+          "scheduler": "cosine to zero over5000 updates",
+          "stage_seed": 32577,
+          "exact_rng_continuation": false
+        }
+      },
+      "verification": {
+        "passed": true,
+        "state_tensors_exact": true,
+        "max_abs_differences": {
+          "emb": 0.0,
+          "act_emb": 0.0,
+          "prediction": 0.0,
+          "planning_cost": 0.0,
+          "rollout": 0.0,
+          "small_cem_actions": 0.0
+        },
+        "device": "cpu",
+        "cem_smoke": {
+          "samples": 4,
+          "iterations": 2,
+          "elites": 2,
+          "horizon": 5,
+          "action_block": 5,
+          "not_full_evaluation": true
+        }
+      }
+    },
+    {
+      "file": "unpredictable_lambda200_step32866.pt",
+      "bytes": 72278402,
+      "sha256": "42f955d6f9f7b16df9c0be6bab9e1a8f3c8a5ac5733d9081e394df4f5166a4ac",
+      "parameters": 18034478,
+      "metadata": {
+        "condition": "unpredictable",
+        "seed": 4711,
+        "lambda_hsic": 200,
+        "source_updates": 27866,
+        "additional_updates": 5000,
+        "global_step": 32866,
+        "source_checkpoint_sha256": "2d8b011917a83f0867185705d26260dd8f0c5feb33130e53c8864af33572cb75",
+        "dtype": "float32",
+        "nuisance": {
+          "condition": "markov",
+          "mode": "pad",
+          "border": 14,
+          "ring": 0,
+          "geometry": "patch",
+          "n_tiles": 16,
+          "n_patches": 1,
+          "patch_size": 14,
+          "amplitude": 1.0,
+          "persistence": 0,
+          "rho": 0.0,
+          "frame_unit": "model",
+          "base_seed": 20260922,
+          "stream": 0
+        },
+        "continuation": {
+          "retained_adamw_moments": true,
+          "learning_rate_restart": true,
+          "warmup_updates": 50,
+          "peak_learning_rate": 5e-05,
+          "scheduler": "cosine to zero over5000 updates",
+          "stage_seed": 32577,
+          "exact_rng_continuation": false
+        }
+      },
+      "verification": {
+        "passed": true,
+        "state_tensors_exact": true,
+        "max_abs_differences": {
+          "emb": 0.0,
+          "act_emb": 0.0,
+          "prediction": 0.0,
+          "planning_cost": 0.0,
+          "rollout": 0.0,
+          "small_cem_actions": 0.0
+        },
+        "device": "cpu",
+        "cem_smoke": {
+          "samples": 4,
+          "iterations": 2,
+          "elites": 2,
+          "horizon": 5,
+          "action_block": 5,
+          "not_full_evaluation": true
+        }
+      }
+    }
+  ],
+  "optimizer_included": false,
+  "published_source_sha256": {
+    "ldep.py": "ac6ea59a41074ee49595f3236a8efd4c5846903acbd7d2c05738bd4e2b3c5c21",
+    "model_io.py": "1a1cd86d31c32ff658a1e07e820a3b76d6644c4172f5cfef0e620d7b77c2b710",
+    "module.py": "2617a842719c28e651e3b1830d45a66a038600542142f9fd4ccac0f0a7d6c9ec",
+    "infer.py": "5dcc6a87913feea134b25a615d626944099c07ca6e78b94ede7374e8024dbc4e",
+    "jepa.py": "bf45c56b1eae10e3f101ca0418675a4312fbc376dbbb3e9fdf33a1f97b6dff01",
+    "utils.py": "eeb6ddb60defd197562b5bbd47ccdcd5d4e74b8f815fe29bdc4b4637e2822e4d",
+    "train.py": "364cc527e4ef7fddc604b01f7d43b92cab6b408ddac62cab1f3fe715a4a8c900",
+    "eval.py": "c4ad569e9805dd3d111c09f767f6a967f638d955c7454037fd2df66d9fc60087",
+    "tests/test_model_io.py": "38388f42b2e82aa20c2555c4cbb711666a3f1cdb034cf3f9b432a1ecd4ee0958",
+    "tests/upstream_forward.py": "77705d3060de904087c5db895093f91f85a2d2f0faeae5d3f57455642132fc14",
+    "tests/test_nuisance.py": "66924b0e8108fd623655fcaaef854aaa42318e829e2b82e52f8dcf818bed46e6",
+    "tests/test_ldep.py": "08158fe571a69b911fdbc7551fec8f6391056dd9a1ef886a1644d8525ae8b15d",
+    "nuisance/nuisance.py": "ccb501178119f707de88a181fff6d887f60a64f22beb5b9a41a176c1ee598d0d",
+    "nuisance/data.py": "d77287adb9e8b19fe8eb9aec4570c3224e4d05199afccdf44aefdeab8c9cbdb9",
+    "nuisance/__init__.py": "3ff95dcb62bc66b5ed921a5566cdeb985acc53a28be65e5d2d872d1d665c7712",
+    "nuisance/eval_policy.py": "e260a9e0375c6c1cddfc991ec864ce7aebee312ab15a705b4f00c885e4e1da0b",
+    "config/train/lewm.yaml": "a6919ad387877f7a9074a9b25677f0259c5416941c4c697e998a83e4d91c16bf",
+    "config/train/model/lewm.yaml": "7be97eaa2c83f809b9ea7a6da5a7d3f3c70502c27537383f54db32335e21e42b",
+    "config/train/data/pusht.yaml": "1bc186de6be3fd24a8c1522a4c51dc7d69b5450b6bf6b57e3af2e1e2d11cc83e",
+    "config/eval/pusht.yaml": "fc09dd22ed347692e899b5b6beb8bd1b1a806ca85242c0d0a0964d8f4a34a3aa",
+    "config/eval/solver/cem.yaml": "797629f829c0d3ad3b9c4e42d46a87f08da0b3845bc433e353fd6274cb0574df",
+    "scripts/download_models.py": "13b5dc2ec02c5dfee437d15f180fde21acb006e5cc15f46641d74fe3a8b9fc5a",
+    "scripts/run.py": "e31efaa991dceade879f53c788873092f933d22a4c35865f59d6ea7c7d7456d9"
+  },
+  "source_hash_encoding": "UTF-8 with LF newlines",
+  "versions": {
+    "torch": "2.6.0",
+    "torchvision": "0.21.0",
+    "stable-pretraining": "0.1.6",
+    "stable-worldmodel": "0.0.5",
+    "lightning": "2.6.1",
+    "transformers": "4.57.6",
+    "hydra-core": "1.3.2",
+    "numpy": "2.2.6",
+    "h5py": "3.16.0",
+    "hdf5plugin": "7.1.0"
+  },
+  "tests_passed": true,
+  "config_checks": {
+    "train.py": true,
+    "eval.py": true
+  },
+  "pip_check": {
+    "available": false,
+    "reason": "The original uv-managed runtime has no pip module; it was not modified. See dependency_check and versions."
+  },
+  "validation_scope": "Isolated published source with original installed dependencies; no fresh dependency installation, new training or600-episode evaluation.",
+  "config_comment_update": "Header attribution corrected after verification; parsed configuration identical, checked with OmegaConf.",
+  "dependency_check": {
+    "tool": "recorded versions plus imports and tests",
+    "uv_available": false
+  }
+}

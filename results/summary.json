@@ -1,0 +1,69 @@
+{
+  "world_model_training_seeds": [
+    4711
+  ],
+  "source_updates": 27866,
+  "released_updates": 32866,
+  "original_lambda200_campaign": {
+    "stable": {
+      "baseline": 4,
+      "hsic200": 9
+    },
+    "grey": {
+      "baseline": 82,
+      "hsic200": 19
+    },
+    "unpredictable": {
+      "baseline": 67,
+      "hsic200": 10
+    }
+  },
+  "lambda600_campaign": {
+    "stable": {
+      "baseline": 3,
+      "hsic600": 7
+    },
+    "grey": {
+      "baseline": 81,
+      "hsic600": 5
+    },
+    "unpredictable": {
+      "baseline": 65,
+      "hsic600": 8
+    }
+  },
+  "counts_denominator": 100,
+  "evaluation_seeds": [
+    42,
+    4242
+  ],
+  "continuation_episode_total": 600,
+  "continuation": {
+    "stable": {
+      "before": 9,
+      "after": 8,
+      "physical_mlp_before": 0.49525629113647285,
+      "physical_mlp_after": 0.48763806746774163
+    },
+    "grey": {
+      "before": 20,
+      "after": 19,
+      "physical_mlp_before": 0.841735824245864,
+      "physical_mlp_after": 0.8497440453167106
+    },
+    "unpredictable": {
+      "before": 10,
+      "after": 11,
+      "physical_mlp_before": 0.8349665533068998,
+      "physical_mlp_after": 0.8468022647163709
+    }
+  },
+  "limitations": [
+    "one world-model training seed",
+    "campaigns use fresh planning evaluations and must not mix baseline columns",
+    "continuation includes learning-rate restart and new RNG stream",
+    "probe-fit seeds are not world-model training seeds",
+    "four-head variants untested"
+  ],
+  "motivation": "https://huguesva.github.io/blog/2026/world-models/"
+}

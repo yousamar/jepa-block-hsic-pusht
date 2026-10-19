@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+env/
+outputs/
+data/
+models/
+wandb/
+.hydra/
+*.pt
+*.ckpt
+*.h5
+*.zst
+*.npz
+.env
+*.log

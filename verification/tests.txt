@@ -1,0 +1,17 @@
+test_attached_bandwidth_radial_gradient (test_ldep.DependenceTest) ... ok
+test_constants_and_time_axis (test_ldep.DependenceTest) ... ok
+test_finite_gradient_all_blocks_and_no_rng (test_ldep.DependenceTest) ... ok
+test_invalid_shape (test_ldep.DependenceTest) ... ok
+test_nonlinear_dependence (test_ldep.DependenceTest) ... NONLINEAR_CHECK {'nonlinear': 0.03107582777738571, 'independent': 0.0001122919493354857}
+ok
+test_zero_weight_matches_original_forward_and_gradients (test_ldep.DependenceTest) ... ok
+test_fp32_round_trip_and_no_optimizer (test_model_io.PortableModelTest) ... ok
+test_reject_unknown_format (test_model_io.PortableModelTest) ... ok
+test_episode_stable_and_frame_random_timescales (test_nuisance.NuisanceRendererTest) ... ok
+test_patch_is_one_token_and_never_touches_the_scene (test_nuisance.NuisanceRendererTest) ... ok
+test_renderer_is_deterministic (test_nuisance.NuisanceRendererTest) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 9.855s
+
+OK
