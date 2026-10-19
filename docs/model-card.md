@@ -2,7 +2,7 @@
 
 ## Contents
 
-Three inference-only FP32 state dictionaries: stable, grey, unpredictable. Each includes a resolved model architecture and minimal provenance metadata. There is no optimizer, scheduler, dataset or training RNG state. The bundles are available in the [private Release](https://github.com/yousamar/jepa-block-hsic-pusht/releases/tag/models-lambda200-step32866-v1). Exact sizes, SHA-256 hashes and verification results are already recorded in `verification/export-validation.json`; the Release also includes `models.json` and `SHA256SUMS`.
+Three inference-only FP32 state dictionaries: stable, grey, unpredictable. Each includes a resolved model architecture and minimal provenance metadata. There is no optimizer, scheduler, dataset or training RNG state. The bundles are available in the [model Release](https://github.com/yousamar/jepa-block-hsic-pusht/releases/tag/models-lambda200-step32866-v1). Exact sizes, SHA-256 hashes and verification results are already recorded in `verification/export-validation.json`; the Release also includes `models.json` and `SHA256SUMS`.
 
 The architecture is the existing ViT-Tiny LeWorldModel with a shared projection MLP, 192 dimensions, four fixed48-dimensional HSIC blocks, action encoder and autoregressive predictor. **It is not the proposed four-head/fusion architecture.** Total parameters:18,034,478. HSIC has no parameters and is absent during inference.
 

@@ -50,7 +50,7 @@ CUDA_VISIBLE_DEVICES=0 python scripts/run.py train \
 
 ## 下载模型与检查推理接口
 
-三个 FP32 推理模型可从[私有 Release](https://github.com/yousamar/jepa-block-hsic-pusht/releases/tag/models-lambda200-step32866-v1)下载，合计约217 MB，包含 `models.json` 和 `SHA256SUMS`。拥有仓库访问权限并登录 [GitHub CLI](https://cli.github.com/) 后，也可使用下面的下载脚本；脚本会核对模型校验和：
+三个 FP32 推理模型可从[模型 Release](https://github.com/yousamar/jepa-block-hsic-pusht/releases/tag/models-lambda200-step32866-v1)下载，合计约217 MB，包含 `models.json` 和 `SHA256SUMS`。可在 Release 页面直接下载，无需仓库授权。若使用下面的脚本，请先安装并登录 [GitHub CLI](https://cli.github.com/)；脚本会核对模型校验和：
 
 ```bash
 python scripts/download_models.py
