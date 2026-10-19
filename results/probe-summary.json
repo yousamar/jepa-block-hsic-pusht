@@ -1,0 +1,166 @@
+{
+  "sources": {
+    "synthetic": {
+      "experiment": "nonlinear_probe_gpu_v1",
+      "artifact": "results.json",
+      "sha256": "9748b2f95fb9f30965c2ddd2d832a851f4167f7e84faad733de879442fc7c7ce"
+    },
+    "pusht": {
+      "experiment": "lewm-readout-20261019-v1",
+      "artifact": "results.json",
+      "sha256": "02e37d896915c2c9a3ed37a2d61384cf97552bbcb7f798fdcd28585396b77058"
+    }
+  },
+  "synthetic": {
+    "target": "mean R2 across three weak factors",
+    "training_seeds": [
+      4711,
+      4712,
+      4713
+    ],
+    "probe_samples": [
+      16384,
+      4096,
+      4096
+    ],
+    "probe_steps": 2000,
+    "rows": [
+      {
+        "label": "未训练模型",
+        "kind": "initial",
+        "lambda": null,
+        "training_steps": 0,
+        "seeds": [
+          {
+            "seed": 4711,
+            "linear": 0.09440489858388901,
+            "mlp": 0.9823832511901855
+          },
+          {
+            "seed": 4712,
+            "linear": 0.0849616751074791,
+            "mlp": 0.984856128692627
+          },
+          {
+            "seed": 4713,
+            "linear": 0.08081859350204468,
+            "mlp": 0.985296368598938
+          }
+        ],
+        "linear": 0.08672838906447093,
+        "mlp": 0.9841785828272501
+      },
+      {
+        "label": "λ0",
+        "kind": "baseline",
+        "lambda": 0,
+        "training_steps": 400,
+        "seeds": [
+          {
+            "seed": 4711,
+            "linear": 0.021231770515441895,
+            "mlp": 0.12009476125240326
+          },
+          {
+            "seed": 4712,
+            "linear": 0.01764390990138054,
+            "mlp": 0.07465331256389618
+          },
+          {
+            "seed": 4713,
+            "linear": 0.021486204117536545,
+            "mlp": 0.05959731340408325
+          }
+        ],
+        "linear": 0.02012062817811966,
+        "mlp": 0.08478179574012756
+      },
+      {
+        "label": "λ200",
+        "kind": "attached",
+        "lambda": 200,
+        "training_steps": 400,
+        "seeds": [
+          {
+            "seed": 4711,
+            "linear": 0.014929195865988731,
+            "mlp": 0.8006355166435242
+          },
+          {
+            "seed": 4712,
+            "linear": 0.018690308555960655,
+            "mlp": 0.7311593890190125
+          },
+          {
+            "seed": 4713,
+            "linear": 0.013233006000518799,
+            "mlp": 0.7471743822097778
+          }
+        ],
+        "linear": 0.015617503474156061,
+        "mlp": 0.7596564292907715
+      }
+    ]
+  },
+  "pusht": {
+    "target": "mean R2 across agent x/y, object x/y, sin(theta), cos(theta)",
+    "world_model_seed": 4711,
+    "training_updates": 27866,
+    "feature_dimensions": 192,
+    "probe_samples": [
+      20000,
+      5000,
+      5000
+    ],
+    "nonlinear_fit_seeds": [
+      20261018,
+      20261019,
+      20261020
+    ],
+    "rows": [
+      {
+        "condition": "stable",
+        "label": "稳定色块",
+        "lambda0": {
+          "linear": -0.004250090723053231,
+          "mlp": -0.004250090723053231,
+          "model": "stable_baseline_seed4711"
+        },
+        "lambda200": {
+          "linear": 0.4369314401914497,
+          "mlp": 0.49525629173221936,
+          "model": "stable_attached200_seed4711"
+        }
+      },
+      {
+        "condition": "grey",
+        "label": "灰背景",
+        "lambda0": {
+          "linear": 0.8098592361484812,
+          "mlp": 0.9688976907235975,
+          "model": "grey_baseline_seed4711"
+        },
+        "lambda200": {
+          "linear": 0.6444814784865205,
+          "mlp": 0.8417357506695681,
+          "model": "grey_attached200_seed4711"
+        }
+      },
+      {
+        "condition": "unpredictable",
+        "label": "逐帧随机色块",
+        "lambda0": {
+          "linear": 0.8326959018673797,
+          "mlp": 0.967490682724588,
+          "model": "unpredictable_baseline_seed4711"
+        },
+        "lambda200": {
+          "linear": 0.6238776836958658,
+          "mlp": 0.8349667755160652,
+          "model": "unpredictable_attached200_seed4711"
+        }
+      }
+    ]
+  },
+  "interpretation": "Frozen readout diagnostics, not information-theoretic measurements or planning success; probe-fit seeds are not world-model training seeds."
+}
