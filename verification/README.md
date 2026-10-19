@@ -6,4 +6,4 @@
 - Training and evaluation Hydra configs both load. Dependencies are the original working environment; a fresh pip installation was not performed. The original uv-managed runtime has no pip module and was not modified.
 - No new training, full planning evaluation or four-head experiment was started for this publication.
 
-Model files have been exported on the experiment server. GitHub Release attachment transfer is still pending authorization of the download method.
+All three model files were downloaded and verified against their exported SHA-256 hashes. Release uploads also check GitHub-provided SHA-256 digests when available; see the model Release and its checksum manifest.
